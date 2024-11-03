@@ -1,0 +1,77 @@
+/* src/components/ImagePipeline.css */
+
+.pipeline-container {
+    /* 可根据需要添加容器样式 */
+  }
+  
+  .step-indicator .step {
+    font-size: 14px;
+    color: gray;
+    position: relative;
+  }
+  
+  .step-indicator .step.active {
+    color: #3b82f6; /* Tailwind 的蓝色 */
+    font-weight: bold;
+  }
+  
+  .step-indicator .step::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background-color: gray;
+    z-index: -1;
+  }
+  
+  .step-indicator .step:last-child::after {
+    display: none;
+  }
+  
+  .image-grid .grid-item {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .classification-overlay {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 4px; /* 可以去掉或调整以满足需求 */
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .classification-overlay.positive {
+    background-color: rgba(76, 175, 80, 0.8); /* 绿色 */
+    color: white;
+  }
+  
+  .classification-overlay.negative {
+    background-color: rgba(244, 67, 54, 0.8); /* 红色 */
+    color: white;
+  }
+  
+  .binary-map .map-grid .map-cell {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .binary-map .map-positive {
+    background-color: #4caf50; /* 绿色 */
+  }
+  
+  .binary-map .map-negative {
+    background-color: #f44336; /* 红色 */
+  }
+  
+  .llm-analysis ul li {
+    margin-left: 20px;
+  }
+  
