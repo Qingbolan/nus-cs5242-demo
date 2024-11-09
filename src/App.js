@@ -6,6 +6,8 @@ import ProjectHomepage from './view/homepage';
 import ModelArchitecture from './view/model';
 import AnalysisPipeline from './components/ImagePipeline';
 import NavBar from './components/NavBar';
+import DocPage from './view/Documantation';
+import DemoInterface from './view/demo/chat';
 
 const App = () => {
   return (
@@ -14,8 +16,10 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<ProjectHomepage />} />
+        <Route path="/docs" element={<DocPage />} />
         <Route path="/models" element={<ModelArchitecture />} />
         <Route path="/examples" element={<AnalysisPipeline />} />
+        <Route path="/demo" element={<DemoInterface />} />
       </Routes>
     </Router>
   );

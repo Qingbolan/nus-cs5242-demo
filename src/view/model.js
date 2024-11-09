@@ -351,28 +351,101 @@ const ArchitectureDiagram = ({ type }) => {
       
       case 'vit':
         return (
-          <svg viewBox="0 0 800 200" className="w-full h-32">
-            <defs>
-              <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-                refX="9" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
-              </marker>
-            </defs>
-            <rect x="50" y="60" width="100" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="100" y="100" textAnchor="middle" className="text-sm">Patch</text>
-            <text x="100" y="120" textAnchor="middle" className="text-sm">Embedding</text>
-            
-            <rect x="180" y="60" width="400" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="380" y="100" textAnchor="middle" className="text-sm">Transformer Encoder</text>
-            <text x="380" y="120" textAnchor="middle" className="text-sm">(Multi-Head Attention + MLP)</text>
-            
-            <rect x="610" y="60" width="100" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="660" y="100" textAnchor="middle" className="text-sm">MLP</text>
-            <text x="660" y="120" textAnchor="middle" className="text-sm">Head</text>
-            
-            <path d="M 150 100 H 180" stroke="#666" markerEnd="url(#arrowhead)" />
-            <path d="M 580 100 H 610" stroke="#666" markerEnd="url(#arrowhead)" />
-          </svg>
+          <div className="w-full">
+            <svg viewBox="0 0 800 400" className="w-full h-full">
+              <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                </marker>
+                <linearGradient id="inputGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#4F46E5" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#3730A3" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="encoderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#6366F1" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#4F46E5" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="mlpGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#818CF8" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#6366F1" stopOpacity="1" />
+                </linearGradient>
+              </defs>
+      
+              {/* Input Image Section */}
+              <g transform="translate(20, 50)">
+                <rect width="120" height="80" rx="5" fill="url(#inputGrad)" />
+                <text x="60" y="45" textAnchor="middle" fill="white" fontSize="12">Input Image</text>
+                <text x="60" y="65" textAnchor="middle" fill="white" fontSize="10">(3 channels)</text>
+              </g>
+      
+              {/* Patch Embedding */}
+              <g transform="translate(180, 30)">
+                <rect width="140" height="120" rx="5" fill="url(#inputGrad)" />
+                <text x="70" y="30" textAnchor="middle" fill="white" fontSize="12">Conv Projection</text>
+                <text x="70" y="50" textAnchor="middle" fill="white" fontSize="10">16×16 patches</text>
+                <text x="70" y="70" textAnchor="middle" fill="white" fontSize="10">in: 3</text>
+                <text x="70" y="90" textAnchor="middle" fill="white" fontSize="10">out: 768</text>
+              </g>
+      
+              {/* Encoder Stack */}
+              <g transform="translate(360, 20)">
+                <rect width="280" height="360" rx="5" fill="url(#encoderGrad)" />
+                <text x="140" y="30" textAnchor="middle" fill="white" fontSize="14">Transformer Encoder × 12</text>
+                
+                {/* Single Encoder Block Detail */}
+                <g transform="translate(20, 50)">
+                  {/* Layer Norm 1 */}
+                  <rect width="240" height="30" rx="3" fill="white" fillOpacity="0.15" />
+                  <text x="120" y="20" textAnchor="middle" fill="white" fontSize="12">Layer Norm (768)</text>
+      
+                  {/* Self Attention */}
+                  <g transform="translate(0, 40)">
+                    <rect width="240" height="80" rx="3" fill="white" fillOpacity="0.2" />
+                    <text x="120" y="20" textAnchor="middle" fill="white" fontSize="12">Multi-Head Attention</text>
+                    <text x="120" y="40" textAnchor="middle" fill="white" fontSize="10">in: 768, out: 768</text>
+                    <text x="120" y="60" textAnchor="middle" fill="white" fontSize="10">NonDynamicallyQuantizable</text>
+                  </g>
+      
+                  {/* Layer Norm 2 */}
+                  <g transform="translate(0, 130)">
+                    <rect width="240" height="30" rx="3" fill="white" fillOpacity="0.15" />
+                    <text x="120" y="20" textAnchor="middle" fill="white" fontSize="12">Layer Norm (768)</text>
+                  </g>
+      
+                  {/* MLP Block */}
+                  <g transform="translate(0, 170)">
+                    <rect width="240" height="120" rx="3" fill="url(#mlpGrad)" />
+                    <text x="120" y="25" textAnchor="middle" fill="white" fontSize="12">MLP Block</text>
+                    <text x="120" y="45" textAnchor="middle" fill="white" fontSize="10">Linear (768 → 3072)</text>
+                    <text x="120" y="65" textAnchor="middle" fill="white" fontSize="10">GELU</text>
+                    <text x="120" y="85" textAnchor="middle" fill="white" fontSize="10">Dropout(0.0)</text>
+                    <text x="120" y="105" textAnchor="middle" fill="white" fontSize="10">Linear (3072 → 768)</text>
+                  </g>
+                </g>
+              </g>
+      
+              {/* Output Head */}
+              <g transform="translate(680, 50)">
+                <rect width="100" height="80" rx="5" fill="url(#inputGrad)" />
+                <text x="50" y="35" textAnchor="middle" fill="white" fontSize="12">Heads</text>
+                <text x="50" y="55" textAnchor="middle" fill="white" fontSize="10">Linear</text>
+                <text x="50" y="70" textAnchor="middle" fill="white" fontSize="10">(768 → 2)</text>
+              </g>
+      
+              {/* Connecting Arrows */}
+              <g fill="none" stroke="#666" strokeWidth="2" markerEnd="url(#arrowhead)">
+                <line x1="140" y1="90" x2="180" y2="90" />
+                <line x1="320" y1="90" x2="360" y2="90" />
+                <line x1="640" y1="90" x2="680" y2="90" />
+              </g>
+      
+              {/* Additional Details */}
+              <g transform="translate(360, 330)">
+                <text x="140" y="30" textAnchor="middle" fill="white" fontSize="10">Dropout(0.0) throughout</text>
+                <text x="140" y="45" textAnchor="middle" fill="white" fontSize="10">LayerNorm eps=1e-6</text>
+              </g>
+            </svg>
+          </div>
         );
         
       case 'autoencoder':

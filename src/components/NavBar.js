@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 const translations = {
   en: {
-    title: "Vision-LLM Integration",
+    title: "VisionaryLLM",
     nav: {
       home: "Home",
       demo: "Demo",
@@ -49,10 +49,10 @@ const NavBar = ({ lang = 'en', onChangeLang }) => {
 
   const navItems = [
     { label: t.nav.home, icon: <Home className="w-4 h-4" />, href: "/" },
-    { label: t.nav.demo, icon: <Terminal className="w-4 h-4" />, href: "/demo" },
     { label: t.nav.docs, icon: <FileText className="w-4 h-4" />, href: "/docs" },
     { label: t.nav.models, icon: <Box className="w-4 h-4" />, href: "/models" },
-    { label: t.nav.examples, icon: <Code className="w-4 h-4" />, href: "/examples" }
+    { label: t.nav.examples, icon: <Code className="w-4 h-4" />, href: "/examples" },
+    { label: t.nav.demo, icon: <Terminal className="w-4 h-4" />, href: "/demo" },
   ];
 
   return (
