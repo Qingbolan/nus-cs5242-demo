@@ -1,95 +1,49 @@
 import React, { useState } from 'react';
 import { 
   Brain, 
+  Layers, 
   Eye, 
   Cpu,
   GanttChart,
   ChevronRight,
-  ChevronDown,
-  Layers
+  ChevronDown
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+
 const ModelArchitecture = () => {
   const [activeTab, setActiveTab] = useState('supervised');
-  // 设置默认展开的模型
   const [expandedModel, setExpandedModel] = useState('resnet50');
   
-  // 当切换标签页时自动设置该标签页下的第一个模型为展开状态
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    if (tab === 'supervised') {
-      setExpandedModel('resnet50');
-    } else {
-      setExpandedModel('autoencoder');
-    }
-  };
-  
-  // 基于研究报告更新的指标数据
   const metrics = {
     supervised: {
-      resnet50: { 
-        accuracy: "99.95%", 
-        precision: "99.93%", 
-        recall: "99.98%", 
-        f1: "99.95%",
-        runtime: "39.76 mins"
-      },
-      alexnet: { 
-        accuracy: "99.80%", 
-        precision: "99.72%", 
-        recall: "99.87%", 
-        f1: "99.80%",
-        runtime: "13.14 mins"
-      },
-      vit: { 
-        accuracy: "99.41%", 
-        precision: "98.92%", 
-        recall: "99.90%", 
-        f1: "99.41%",
-        runtime: "120.48 mins"
-      }
+      resnet50: { accuracy: "94.5%", precision: "93.8%", recall: "94.2%", f1: "94.0%" },
+      alexnet: { accuracy: "92.8%", precision: "92.1%", recall: "92.5%", f1: "92.3%" },
+      vit: { accuracy: "95.2%", precision: "94.8%", recall: "95.0%", f1: "94.9%" }
     },
     unsupervised: {
-      autoencoder: { 
-        accuracy: "95.57%", 
-        precision: "96.96%", 
-        recall: "53.59%", 
-        f1: "68.68%",
-        runtime: "13.91 mins" 
-      },
-      vae: { 
-        accuracy: "94.18%", 
-        precision: "95.57%", 
-        recall: "37.75%", 
-        f1: "54.13%",
-        runtime: "15.94 mins"
-      },
-      vitAnomaly: { 
-        accuracy: "99.68%", 
-        precision: "99.47%", 
-        recall: "99.87%", 
-        f1: "99.67%",
-        runtime: "22.48 mins"
-      }
+      autoencoder: { reconstruction: "88.9%", latentDim: "128", anomalyScore: "0.24" },
+      vae: { elbo: "87.6%", kl: "0.31", reconstruction: "88.2%" },
+      vitAnomaly: { anomalyAUC: "89.4%", clusterPurity: "0.88", silhouette: "0.22" }
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold text-gray-900">Model Architecture & Results</h1>
           <div className="mt-4 flex space-x-4">
             <TabButton 
               active={activeTab === 'supervised'} 
-              onClick={() => handleTabChange('supervised')}
+              onClick={() => setActiveTab('supervised')}
               icon={<Eye className="w-5 h-5" />}
               text="Supervised Learning"
             />
             <TabButton 
               active={activeTab === 'unsupervised'} 
-              onClick={() => handleTabChange('unsupervised')}
+              onClick={() => setActiveTab('unsupervised')}
               icon={<Brain className="w-5 h-5" />}
               text="Unsupervised Learning"
             />
@@ -128,11 +82,13 @@ const SupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="resnet" />
+          </div>
           <div className="mt-4 space-y-2">
             <Parameter name="Residual Blocks" value="16" />
             <Parameter name="Feature Channels" value="64, 128, 256, 512" />
             <Parameter name="Bottleneck Structure" value="1x1, 3x3, 1x1 convolutions" />
-            <Parameter name="Training Runtime" value={metrics.resnet50.runtime} />
           </div>
         </div>
         <div className="space-y-6">
@@ -156,6 +112,10 @@ const SupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
               />
             </ul>
           </div>
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+            <ResultsChart data={metrics.resnet50} />
+          </div>
         </div>
       </div>
     </ModelCard>
@@ -170,19 +130,18 @@ const SupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="alexnet" />
+          </div>
           <div className="mt-4 space-y-2">
             <Parameter name="Convolutional Layers" value="5" />
             <Parameter name="Fully Connected Layers" value="3" />
             <Parameter name="Max Pooling Layers" value="3" />
-            <Parameter name="Training Runtime" value={metrics.alexnet.runtime} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-4">Performance Analysis</h4>
-          <div className="space-y-4">
-            <p className="text-gray-600">Fast training time but slightly lower accuracy compared to ResNet50. Good baseline model for quick prototyping.</p>
-            <ResultsChart data={metrics.alexnet} />
-          </div>
+          <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+          <ResultsChart data={metrics.alexnet} />
         </div>
       </div>
     </ModelCard>
@@ -197,19 +156,18 @@ const SupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="vit" />
+          </div>
           <div className="mt-4 space-y-2">
-            <Parameter name="Transformer Layers" value="12" />
             <Parameter name="Patch Size" value="16x16" />
+            <Parameter name="Number of Layers" value="12" />
             <Parameter name="Hidden Size" value="768" />
-            <Parameter name="Training Runtime" value={metrics.vit.runtime} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-4">Performance Analysis</h4>
-          <div className="space-y-4">
-            <p className="text-gray-600">Longest training time but demonstrates good capability in capturing global features. Attention mechanism helps in contextual understanding.</p>
-            <ResultsChart data={metrics.vit} />
-          </div>
+          <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+          <ResultsChart data={metrics.vit} />
         </div>
       </div>
     </ModelCard>
@@ -218,9 +176,9 @@ const SupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
 
 const UnsupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
   <div className="space-y-6">
-    {/* Standard Autoencoder */}
+    {/* Autoencoder */}
     <ModelCard
-      title="Standard Autoencoder"
+      title="Autoencoder"
       expanded={expandedModel === 'autoencoder'}
       onClick={() => setExpandedModel(expandedModel === 'autoencoder' ? null : 'autoencoder')}
       metrics={metrics.autoencoder}
@@ -228,18 +186,18 @@ const UnsupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="autoencoder" />
+          </div>
           <div className="mt-4 space-y-2">
             <Parameter name="Encoder Layers" value="4" />
             <Parameter name="Decoder Layers" value="4" />
-            <Parameter name="Training Runtime" value={metrics.autoencoder.runtime} />
+            <Parameter name="Latent Dimension" value="128" />
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-4">Performance Analysis</h4>
-          <div className="space-y-4">
-            <p className="text-gray-600">Shows good precision but lower recall, indicating conservative anomaly detection. Fast training time makes it suitable for initial experiments.</p>
-            <ResultsChart data={metrics.autoencoder} />
-          </div>
+          <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+          <AutoencoderResults data={metrics.autoencoder} />
         </div>
       </div>
     </ModelCard>
@@ -254,18 +212,18 @@ const UnsupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="vae" />
+          </div>
           <div className="mt-4 space-y-2">
             <Parameter name="Encoder Structure" value="μ and σ networks" />
             <Parameter name="Latent Space" value="Normal Distribution" />
-            <Parameter name="Training Runtime" value={metrics.vae.runtime} />
+            <Parameter name="Loss Function" value="ELBO = Reconstruction + KL" />
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-4">Performance Analysis</h4>
-          <div className="space-y-4">
-            <p className="text-gray-600">Lower performance compared to standard autoencoder, particularly in recall. The probabilistic approach may need further optimization.</p>
-            <ResultsChart data={metrics.vae} />
-          </div>
+          <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+          <VAEResults data={metrics.vae} />
         </div>
       </div>
     </ModelCard>
@@ -280,18 +238,18 @@ const UnsupervisedSection = ({ expandedModel, setExpandedModel, metrics }) => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
           <h4 className="text-lg font-semibold mb-4">Architecture Overview</h4>
+          <div className="bg-gray-50 p-4 rounded-lg overflow-hidden">
+            <ArchitectureDiagram type="vitAnomaly" />
+          </div>
           <div className="mt-4 space-y-2">
             <Parameter name="Attention Heads" value="12" />
             <Parameter name="Token Dimension" value="768" />
-            <Parameter name="Training Runtime" value={metrics.vitAnomaly.runtime} />
+            <Parameter name="Anomaly Threshold" value="Dynamic" />
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h4 className="text-lg font-semibold mb-4">Performance Analysis</h4>
-          <div className="space-y-4">
-            <p className="text-gray-600">Best performing unsupervised model with balanced precision and recall. Global attention mechanism proves effective for anomaly detection.</p>
-            <ResultsChart data={metrics.vitAnomaly} />
-          </div>
+          <h4 className="text-lg font-semibold mb-4">Results Visualization</h4>
+          <AnomalyResults data={metrics.vitAnomaly} />
         </div>
       </div>
     </ModelCard>
