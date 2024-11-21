@@ -413,47 +413,295 @@ const Parameter = ({ name, value }) => (
   </div>
 );
 
-const Feature = ({ icon, title, description }) => (
-  <li className="flex items-start space-x-3">
-    <div className="flex-shrink-0 mt-1 text-blue-500">{icon}</div>
-    <div>
-      <h5 className="font-medium">{title}</h5>
-      <p className="text-sm text-gray-500">{description}</p>
-    </div>
-  </li>
-);
 
 // Architecture diagrams using SVG
 const ArchitectureDiagram = ({ type }) => {
   switch(type) {
     case 'resnet':
       return (
-        <svg viewBox="0 0 800 200" className="w-full h-32">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-              refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+        {/* Styles */}
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
             </marker>
-          </defs>
-          <g className="resnet-block">
-            <rect x="50" y="60" width="120" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="110" y="100" textAnchor="middle" className="text-sm">Conv1</text>
-            <rect x="200" y="60" width="120" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="260" y="100" textAnchor="middle" className="text-sm">ResBlock</text>
-            <rect x="350" y="60" width="120" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="410" y="100" textAnchor="middle" className="text-sm">ResBlock</text>
-            <rect x="500" y="60" width="120" height="80" fill="#dbeafe" stroke="#3b82f6" />
-            <text x="560" y="100" textAnchor="middle" className="text-sm">FC</text>
-            
-            <path d="M 170 100 H 200" stroke="#666" markerEnd="url(#arrowhead)" />
-            <path d="M 320 100 H 350" stroke="#666" markerEnd="url(#arrowhead)" />
-            <path d="M 470 100 H 500" stroke="#666" markerEnd="url(#arrowhead)" />
-            
-            <path d="M 200 40 H 470 M 335 40 V 60" stroke="#666" strokeDasharray="4" />
-          </g>
-        </svg>
+        </defs>
+        
+        {/* Input Layer */}
+        <rect x="100" y="200" width="100" height="60" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+        <text x="150" y="235" text-anchor="middle" font-size="14">Input
+            <tspan x="150" y="255">3×224×224</tspan>
+        </text>
+        
+        {/* Conv1 Layer */}
+        <rect x="250" y="200" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="300" y="225" text-anchor="middle" font-size="14">Conv1
+            <tspan x="300" y="245">7×7, 64</tspan>
+            <tspan x="300" y="255">stride 2</tspan>
+        </text>
+        
+        {/* MaxPool Layer */}
+        <rect x="400" y="200" width="100" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="450" y="225" text-anchor="middle" font-size="14">MaxPool
+            <tspan x="450" y="245">3×3</tspan>
+            <tspan x="450" y="255">stride 2</tspan>
+        </text>
+        
+        {/* Layer1 */}
+        <rect x="550" y="180" width="120" height="100" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2" rx="4"/>
+        <text x="610" y="210" text-anchor="middle" font-size="14">Layer1</text>
+        <text x="610" y="230" text-anchor="middle" font-size="12">1×1, 64</text>
+        <text x="610" y="245" text-anchor="middle" font-size="12">3×3, 64</text>
+        <text x="610" y="260" text-anchor="middle" font-size="12">1×1, 256</text>
+        <text x="610" y="275" text-anchor="middle" font-size="12">×3 blocks</text>
+        
+        {/* Layer2 */}
+        <rect x="720" y="180" width="120" height="100" fill="#e8eaf6" stroke="#283593" stroke-width="2" rx="4"/>
+        <text x="780" y="210" text-anchor="middle" font-size="14">Layer2</text>
+        <text x="780" y="230" text-anchor="middle" font-size="12">1×1, 128</text>
+        <text x="780" y="245" text-anchor="middle" font-size="12">3×3, 128</text>
+        <text x="780" y="260" text-anchor="middle" font-size="12">1×1, 512</text>
+        <text x="780" y="275" text-anchor="middle" font-size="12">×4 blocks</text>
+        
+        {/* Layer3 */}
+        <rect x="890" y="180" width="120" height="100" fill="#fce4ec" stroke="#c2185b" stroke-width="2" rx="4"/>
+        <text x="950" y="210" text-anchor="middle" font-size="14">Layer3</text>
+        <text x="950" y="230" text-anchor="middle" font-size="12">1×1, 256</text>
+        <text x="950" y="245" text-anchor="middle" font-size="12">3×3, 256</text>
+        <text x="950" y="260" text-anchor="middle" font-size="12">1×1, 1024</text>
+        <text x="950" y="275" text-anchor="middle" font-size="12">×6 blocks</text>
+        
+        {/* Layer4 */}
+        <rect x="1060" y="180" width="120" height="100" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="1120" y="210" text-anchor="middle" font-size="14">Layer4</text>
+        <text x="1120" y="230" text-anchor="middle" font-size="12">1×1, 512</text>
+        <text x="1120" y="245" text-anchor="middle" font-size="12">3×3, 512</text>
+        <text x="1120" y="260" text-anchor="middle" font-size="12">1×1, 2048</text>
+        <text x="1120" y="275" text-anchor="middle" font-size="12">×3 blocks</text>
+        
+        {/* AvgPool and FC */}
+        <rect x="1060" y="330" width="120" height="40" fill="#e0f7fa" stroke="#006064" stroke-width="2" rx="4"/>
+        <text x="1120" y="355" text-anchor="middle" font-size="14">AvgPool + FC (2)</text>
+        
+        {/* Connections */}
+        <path d="M 200 230 L 250 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 350 230 L 400 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 500 230 L 550 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 670 230 L 720 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 840 230 L 890 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 1010 230 L 1060 230" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 1120 280 L 1120 330" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        
+        {/* Skip Connections */}
+        <path d="M 610 160 L 780 160" stroke="#ff4081" stroke-width="2" stroke-dasharray="5,5"/>
+        <path d="M 780 160 L 950 160" stroke="#ff4081" stroke-width="2" stroke-dasharray="5,5"/>
+        <path d="M 950 160 L 1120 160" stroke="#ff4081" stroke-width="2" stroke-dasharray="5,5"/>
+        
+        {/* Legend */}
+        <rect x="100" y="400" width="180" height="100" fill="white" stroke="#666" stroke-width="1" rx="4"/>
+        <text x="110" y="420" font-size="14">Legend:</text>
+        <rect x="110" y="430" width="15" height="15" fill="none" stroke="#ff4081" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="135" y="442" font-size="12">Skip Connection</text>
+        <rect x="110" y="455" width="15" height="15" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+        <text x="135" y="467" font-size="12">Conv Layer</text>
+        <rect x="110" y="480" width="15" height="15" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+        <text x="135" y="492" font-size="12">Bottleneck Block</text>
+    </svg>
       );
     
+    case 'alexnet':
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
+          {/* Styles */}
+          <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+              </marker>
+          </defs>
+          
+          {/* Input Layer */}
+          <rect x="50" y="150" width="80" height="60" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+          <text x="90" y="175" text-anchor="middle" font-size="14">Input
+              <tspan x="90" y="195">3×224×224</tspan>
+          </text>
+          
+          {/* Features Section */}
+          {/* Conv1 + ReLU + MaxPool */}
+          <rect x="180" y="150" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+          <text x="230" y="170" text-anchor="middle" font-size="14">Conv1
+              <tspan x="230" y="185">11×11, 64</tspan>
+              <tspan x="230" y="200">stride 4</tspan>
+          </text>
+          
+          <rect x="320" y="150" width="80" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+          <text x="360" y="175" text-anchor="middle" font-size="14">MaxPool
+              <tspan x="360" y="195">3×3, s2</tspan>
+          </text>
+          
+          {/* Conv2 + ReLU + MaxPool */}
+          <rect x="440" y="150" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+          <text x="490" y="170" text-anchor="middle" font-size="14">Conv2
+              <tspan x="490" y="185">5×5, 192</tspan>
+              <tspan x="490" y="200">stride 1</tspan>
+          </text>
+          
+          <rect x="580" y="150" width="80" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+          <text x="620" y="175" text-anchor="middle" font-size="14">MaxPool
+              <tspan x="620" y="195">3×3, s2</tspan>
+          </text>
+          
+          {/* Conv3 + ReLU */}
+          <rect x="700" y="150" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+          <text x="750" y="170" text-anchor="middle" font-size="14">Conv3
+              <tspan x="750" y="185">3×3, 384</tspan>
+              <tspan x="750" y="200">stride 1</tspan>
+          </text>
+          
+          {/* Conv4 + ReLU */}
+          <rect x="840" y="150" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+          <text x="890" y="170" text-anchor="middle" font-size="14">Conv4
+              <tspan x="890" y="185">3×3, 256</tspan>
+              <tspan x="890" y="200">stride 1</tspan>
+          </text>
+          
+          {/* Conv5 + ReLU + MaxPool */}
+          <rect x="980" y="150" width="100" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+          <text x="1030" y="170" text-anchor="middle" font-size="14">Conv5
+              <tspan x="1030" y="185">3×3, 256</tspan>
+              <tspan x="1030" y="200">stride 1</tspan>
+          </text>
+          
+          {/* Classifier Section */}
+          <rect x="700" y="270" width="380" height="100" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2" rx="4"/>
+          <text x="890" y="295" text-anchor="middle" font-size="14">Classifier</text>
+          <text x="890" y="320" text-anchor="middle" font-size="12">Dropout(0.5) → FC(9216→4096) → ReLU →</text>
+          <text x="890" y="340" text-anchor="middle" font-size="12">Dropout(0.5) → FC(4096→4096) → ReLU →</text>
+          <text x="890" y="360" text-anchor="middle" font-size="12">FC(4096→2)</text>
+          
+          {/* Connections */}
+          <path d="M 130 180 L 180 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 280 180 L 320 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 400 180 L 440 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 540 180 L 580 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 660 180 L 700 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 800 180 L 840 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 940 180 L 980 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <path d="M 1080 180 L 1080 270" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+          
+          {/* Legend */}
+          <rect x="50" y="400" width="200" height="80" fill="white" stroke="#666" stroke-width="1" rx="4"/>
+          <text x="60" y="420" font-size="14">Legend:</text>
+          <rect x="60" y="430" width="15" height="15" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+          <text x="85" y="442" font-size="12">Conv + ReLU Layer</text>
+          <rect x="60" y="455" width="15" height="15" fill="#fff3e0" stroke="#ef6c00" stroke-width="1"/>
+          <text x="85" y="467" font-size="12">MaxPool Layer</text>
+      </svg>);
+    case 'vgg16':
+      return(
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
+        {/* Styles */}
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+            </marker>
+        </defs>
+        
+        {/* Input Layer */}
+        <rect x="50" y="150" width="80" height="60" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+        <text x="90" y="175" text-anchor="middle" font-size="14">Input
+            <tspan x="90" y="195">3×224×224</tspan>
+        </text>
+        
+        {/* Block 1: 2×Conv64 */}
+        <rect x="170" y="150" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="230" y="170" text-anchor="middle" font-size="14">Conv Block 1
+            <tspan x="230" y="185">2× [3×3, 64]</tspan>
+            <tspan x="230" y="200">stride 1</tspan>
+        </text>
+        
+        <rect x="310" y="150" width="60" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="340" y="175" text-anchor="middle" font-size="14">Pool
+            <tspan x="340" y="195">2×2</tspan>
+        </text>
+        
+        {/* Block 2: 2×Conv128 */}
+        <rect x="390" y="150" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="450" y="170" text-anchor="middle" font-size="14">Conv Block 2
+            <tspan x="450" y="185">2× [3×3, 128]</tspan>
+            <tspan x="450" y="200">stride 1</tspan>
+        </text>
+        
+        <rect x="530" y="150" width="60" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="560" y="175" text-anchor="middle" font-size="14">Pool
+            <tspan x="560" y="195">2×2</tspan>
+        </text>
+        
+        {/* Block 3: 3×Conv256 */}
+        <rect x="610" y="150" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="670" y="170" text-anchor="middle" font-size="14">Conv Block 3
+            <tspan x="670" y="185">3× [3×3, 256]</tspan>
+            <tspan x="670" y="200">stride 1</tspan>
+        </text>
+        
+        <rect x="750" y="150" width="60" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="780" y="175" text-anchor="middle" font-size="14">Pool
+            <tspan x="780" y="195">2×2</tspan>
+        </text>
+        
+        {/* Block 4: 3×Conv512 */}
+        <rect x="830" y="150" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="890" y="170" text-anchor="middle" font-size="14">Conv Block 4
+            <tspan x="890" y="185">3× [3×3, 512]</tspan>
+            <tspan x="890" y="200">stride 1</tspan>
+        </text>
+        
+        <rect x="970" y="150" width="60" height="60" fill="#fff3e0" stroke="#ef6c00" stroke-width="2" rx="4"/>
+        <text x="1000" y="175" text-anchor="middle" font-size="14">Pool
+            <tspan x="1000" y="195">2×2</tspan>
+        </text>
+        
+        {/* Block 5: 3×Conv512 */}
+        <rect x="1050" y="150" width="120" height="60" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+        <text x="1110" y="170" text-anchor="middle" font-size="14">Conv Block 5
+            <tspan x="1110" y="185">3× [3×3, 512]</tspan>
+            <tspan x="1110" y="200">stride 1</tspan>
+        </text>
+        
+        {/* AvgPool */}
+        <rect x="970" y="250" width="200" height="40" fill="#e1bee7" stroke="#6a1b9a" stroke-width="2" rx="4"/>
+        <text x="1070" y="275" text-anchor="middle" font-size="14">AvgPool (7×7)</text>
+        
+        {/* Classifier */}
+        <rect x="920" y="320" width="300" height="100" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2" rx="4"/>
+        <text x="1070" y="345" text-anchor="middle" font-size="14">Classifier</text>
+        <text x="1070" y="365" text-anchor="middle" font-size="12">FC(25088→4096) → ReLU → Dropout(0.5)</text>
+        <text x="1070" y="385" text-anchor="middle" font-size="12">FC(4096→4096) → ReLU → Dropout(0.5)</text>
+        <text x="1070" y="405" text-anchor="middle" font-size="12">FC(4096→2)</text>
+        
+        {/* Connections */}
+        <path d="M 130 180 L 170 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 290 180 L 310 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 370 180 L 390 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 510 180 L 530 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 590 180 L 610 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 730 180 L 750 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 810 180 L 830 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 950 180 L 970 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 1030 180 L 1050 180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 1170 180 L 1170 250" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        <path d="M 1070 290 L 1070 320" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+        
+        {/* Legend */}
+        <rect x="50" y="400" width="220" height="80" fill="white" stroke="#666" stroke-width="1" rx="4"/>
+        <text x="60" y="420" font-size="14">Legend:</text>
+        <rect x="60" y="430" width="15" height="15" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+        <text x="85" y="442" font-size="12">Conv Block (Conv + ReLU)</text>
+        <rect x="60" y="455" width="15" height="15" fill="#fff3e0" stroke="#ef6c00" stroke-width="1"/>
+        <text x="85" y="467" font-size="12">MaxPool Layer</text>
+    </svg>
+      );
+
+
     case 'vit':
       return (
         <div className="w-full">
@@ -555,75 +803,183 @@ const ArchitectureDiagram = ({ type }) => {
       
     case 'autoencoder':
       return (
-        <svg viewBox="0 0 800 200" className="w-full h-32">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-              refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
-            </marker>
-          </defs>
-          <rect x="50" y="60" width="200" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="150" y="100" textAnchor="middle" className="text-sm">Encoder</text>
-          
-          <rect x="300" y="80" width="100" height="40" fill="#bfdbfe" stroke="#3b82f6" />
-          <text x="350" y="105" textAnchor="middle" className="text-sm">Latent</text>
-          
-          <rect x="450" y="60" width="200" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="550" y="100" textAnchor="middle" className="text-sm">Decoder</text>
-          
-          <path d="M 250 100 H 300" stroke="#666" markerEnd="url(#arrowhead)" />
-          <path d="M 400 100 H 450" stroke="#666" markerEnd="url(#arrowhead)" />
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500">
+    {/* Styles */}
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#2E7D32"/>
+        </marker>
+    </defs>
+    
+    {/* Input Layer */}
+    <rect x="50" y="200" width="100" height="100" fill="#B2DFDB" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="100" y="235" textAnchor="middle" fontSize="14">Input
+        <tspan x="100" y="255">28×28×1</tspan>
+    </text>
+    
+    {/* Encoder Section */}
+    {/* Conv1 + MaxPool */}
+    <rect x="200" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="250" y="235" textAnchor="middle" fontSize="14">Conv1
+        <tspan x="250" y="255">3×3, 32</tspan>
+        <tspan x="250" y="275">14×14×32</tspan>
+    </text>
+    
+    {/* Conv2 + MaxPool */}
+    <rect x="350" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="400" y="235" textAnchor="middle" fontSize="14">Conv2
+        <tspan x="400" y="255">3×3, 64</tspan>
+        <tspan x="400" y="275">7×7×64</tspan>
+    </text>
+    
+    {/* Latent Space */}
+    <rect x="500" y="200" width="100" height="100" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="550" y="235" textAnchor="middle" fontSize="14">Latent
+        <tspan x="550" y="255">Space</tspan>
+        <tspan x="550" y="275">7×7×64</tspan>
+    </text>
+    
+    {/* Decoder Section */}
+    {/* Deconv1 + Upsample */}
+    <rect x="650" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="700" y="235" textAnchor="middle" fontSize="14">Deconv1
+        <tspan x="700" y="255">3×3, 64</tspan>
+        <tspan x="700" y="275">14×14×64</tspan>
+    </text>
+    
+    {/* Deconv2 + Upsample */}
+    <rect x="800" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="850" y="235" textAnchor="middle" fontSize="14">Deconv2
+        <tspan x="850" y="255">3×3, 32</tspan>
+        <tspan x="850" y="275">28×28×32</tspan>
+    </text>
+    
+    {/* Output Layer */}
+    <rect x="950" y="200" width="100" height="100" fill="#B2DFDB" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="1000" y="235" textAnchor="middle" fontSize="14">Output
+        <tspan x="1000" y="255">28×28×1</tspan>
+    </text>
+    
+    {/* Connections */}
+    <path d="M 150 250 L 200 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 300 250 L 350 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 450 250 L 500 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 600 250 L 650 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 750 250 L 800 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 900 250 L 950 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    
+    {/* Labels */}
+    <text x="300" y="150" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#2E7D32">Encoder</text>
+    <text x="800" y="150" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#2E7D32">Decoder</text>
+    
+    {/* Legend */}
+    <rect x="50" y="380" width="250" height="100" fill="white" stroke="#2E7D32" strokeWidth="1" rx="4"/>
+    <text x="60" y="400" fontSize="14" fontWeight="bold">Legend:</text>
+    <rect x="60" y="410" width="15" height="15" fill="#81C784" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="422" fontSize="12">Encoder Conv + MaxPool</text>
+    <rect x="60" y="435" width="15" height="15" fill="#81C784" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="447" fontSize="12">Decoder Deconv + Upsample</text>
+    <rect x="60" y="460" width="15" height="15" fill="#4CAF50" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="472" fontSize="12">Latent Space</text>
+</svg>
       );
       
     case 'vae':
       return (
-        <svg viewBox="0 0 800 200" className="w-full h-32">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-              refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
-            </marker>
-          </defs>
-          <rect x="50" y="40" width="200" height="60" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="150" y="75" textAnchor="middle" className="text-sm">μ Encoder</text>
-          
-          <rect x="50" y="120" width="200" height="60" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="150" y="155" textAnchor="middle" className="text-sm">σ Encoder</text>
-          
-          <rect x="300" y="80" width="100" height="40" fill="#bfdbfe" stroke="#3b82f6" />
-          <text x="350" y="105" textAnchor="middle" className="text-sm">Sample</text>
-          
-          <rect x="450" y="60" width="200" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="550" y="100" textAnchor="middle" className="text-sm">Decoder</text>
-          
-          <path d="M 250 70 L 300 100" stroke="#666" markerEnd="url(#arrowhead)" />
-          <path d="M 250 150 L 300 100" stroke="#666" markerEnd="url(#arrowhead)" />
-          <path d="M 400 100 H 450" stroke="#666" markerEnd="url(#arrowhead)" />
-        </svg>
-      );
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+    {/* Styles */}
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#2E7D32"/>
+        </marker>
+    </defs>
     
-    case 'vitAnomaly':
-      return (
-        <svg viewBox="0 0 800 200" className="w-full h-32">
-          <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
-              refX="9" refY="3.5" orient="auto">
-              <polygon points="0 0, 10 3.5, 0 7" fill="#666" />
-            </marker>
-          </defs>
-          <rect x="50" y="60" width="150" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="125" y="100" textAnchor="middle" className="text-sm">ViT Backbone</text>
-          
-          <rect x="220" y="60" width="150" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="295" y="100" textAnchor="middle" className="text-sm">Anomaly Detector</text>
-          
-          <rect x="390" y="60" width="150" height="80" fill="#dbeafe" stroke="#3b82f6" />
-          <text x="465" y="100" textAnchor="middle" className="text-sm">Output Layer</text>
-          
-          <path d="M 200 100 H 220" stroke="#666" markerEnd="url(#arrowhead)" />
-          <path d="M 370 100 H 390" stroke="#666" markerEnd="url(#arrowhead)" />
-        </svg>
+    {/* Input Layer */}
+    <rect x="50" y="200" width="100" height="100" fill="#B2DFDB" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="100" y="235" textAnchor="middle" fontSize="14">Input
+        <tspan x="100" y="255">28×28×1</tspan>
+    </text>
+    
+    {/* Encoder Section */}
+    {/* Conv1 + MaxPool */}
+    <rect x="200" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="250" y="235" textAnchor="middle" fontSize="14">Conv1
+        <tspan x="250" y="255">3×3, 32</tspan>
+        <tspan x="250" y="275">14×14×32</tspan>
+    </text>
+    
+    {/* Conv2 + MaxPool */}
+    <rect x="350" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="400" y="235" textAnchor="middle" fontSize="14">Conv2
+        <tspan x="400" y="255">3×3, 64</tspan>
+        <tspan x="400" y="275">7×7×64</tspan>
+    </text>
+    
+    {/* Mean Branch */}
+    <rect x="500" y="150" width="100" height="80" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="550" y="185" textAnchor="middle" fontSize="14">μ
+        <tspan x="550" y="205">FC 128</tspan>
+    </text>
+    
+    {/* Variance Branch */}
+    <rect x="500" y="270" width="100" height="80" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="550" y="305" textAnchor="middle" fontSize="14">σ
+        <tspan x="550" y="325">FC 128</tspan>
+    </text>
+    
+    {/* Reparameterization */}
+    <rect x="650" y="200" width="100" height="100" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="700" y="235" textAnchor="middle" fontSize="14">z = μ + σ·ε
+        <tspan x="700" y="255">ε ~ N(0,1)</tspan>
+        <tspan x="700" y="275">128</tspan>
+    </text>
+    
+    {/* Decoder Section */}
+    {/* Dense Layer */}
+    <rect x="800" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="850" y="235" textAnchor="middle" fontSize="14">Dense
+        <tspan x="850" y="255">7×7×64</tspan>
+    </text>
+    
+    {/* Deconv1 + Upsample */}
+    <rect x="950" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="1000" y="235" textAnchor="middle" fontSize="14">Deconv1
+        <tspan x="1000" y="255">3×3, 64</tspan>
+        <tspan x="1000" y="275">14×14×64</tspan>
+    </text>
+    
+    {/* Deconv2 + Upsample */}
+    <rect x="1100" y="200" width="100" height="100" fill="#81C784" stroke="#2E7D32" strokeWidth="2" rx="4"/>
+    <text x="1150" y="235" textAnchor="middle" fontSize="14">Deconv2
+        <tspan x="1150" y="255">3×3, 32</tspan>
+        <tspan x="1150" y="275">28×28×1</tspan>
+    </text>
+    
+    {/* Connections */}
+    <path d="M 150 250 L 200 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 300 250 L 350 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 450 250 L 500 190" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 450 250 L 500 310" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 600 190 L 650 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 600 310 L 650 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 750 250 L 800 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 900 250 L 950 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    <path d="M 1050 250 L 1100 250" stroke="#2E7D32" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+    
+    {/* Labels */}
+    <text x="400" y="100" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#2E7D32">Encoder</text>
+    <text x="1000" y="100" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#2E7D32">Decoder</text>
+    
+    {/* Legend */}
+    <rect x="50" y="450" width="300" height="120" fill="white" stroke="#2E7D32" strokeWidth="1" rx="4"/>
+    <text x="60" y="470" fontSize="14" fontWeight="bold">Legend:</text>
+    <rect x="60" y="480" width="15" height="15" fill="#81C784" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="492" fontSize="12">Conv/Deconv Layer</text>
+    <rect x="60" y="505" width="15" height="15" fill="#4CAF50" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="517" fontSize="12">Latent Variables (μ, σ) & Sampling</text>
+    <rect x="60" y="530" width="15" height="15" fill="#B2DFDB" stroke="#2E7D32" strokeWidth="1"/>
+    <text x="85" y="542" fontSize="12">Input/Output Layer</text>
+</svg>
       );
     
     default:

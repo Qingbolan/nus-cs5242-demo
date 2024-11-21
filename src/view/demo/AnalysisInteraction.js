@@ -40,7 +40,7 @@ const translations = {
       severity: "Severity Level"
     },
     tasks: {
-      detection: "Detect defects in region",
+      detection: "Please help me analyze this tumor photo",
       count: "Count total defects",
       measure: "Measure defect size",
       compare: "Compare regions",
@@ -138,7 +138,7 @@ const AnalysisInteraction = ({ lang = 'en' }) => {
         // 将上传成功的文件URL添加到聊天记录
         setChatHistory(prev => [...prev, {
           type: 'user',
-          text: '上传了图片：' + file.name,
+          text: 'image_uploaded:' + file.name,
           imageUrl: response.data.files[0].file_url
         }]);
       } catch (error) {

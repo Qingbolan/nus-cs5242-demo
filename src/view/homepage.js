@@ -226,7 +226,7 @@ const ProjectHomepage = () => {
               <text x="180" y="20" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Domain-specific Data Input</text>
               <text x="20" y="45" font-family="Arial" font-size="12">• Medical Images</text>
               <text x="180" y="45" font-family="Arial" font-size="12">• Industrial Data</text>
-              <text x="320" y="45" font-family="Arial" font-size="12">• Scientific Data</text>
+              <text x="320" y="45" font-family="Arial" font-size="12">• etc.</text>
               <text x="180" y="65" font-family="Arial" font-size="12" font-style="italic">Extensible Data Interface</text>
             </g>
             
@@ -242,9 +242,9 @@ const ProjectHomepage = () => {
               <text x="190" y="60" text-anchor="middle" font-family="Arial" font-size="12">Training Process</text>
               
               <rect x="260" y="35" width="80" height="40" fill="#bbdefb" stroke="#1565c0" stroke-width="1"/>
-              <text x="300" y="60" text-anchor="middle" font-family="Arial" font-size="12">Validation</text>
+              <text x="300" y="60" text-anchor="middle" font-family="Arial" font-size="12">Evolusion</text>
               
-              <text x="180" y="100" font-family="Arial" font-size="12" font-style="italic">Deep Learning Models + LLM Integration</text>
+              <text x="180" y="100" font-family="Arial" font-size="12" font-style="italic">Models Store(.pth) + function Record(.json)</text>
             </g>
           </g>
 
@@ -257,11 +257,12 @@ const ProjectHomepage = () => {
             {/* <!-- Vision Tasks --> */}
             <g transform="translate(20,60)">
               <rect x="0" y="0" width="360" height="80" fill="#ffffff" stroke="#2e7d32" stroke-width="1"/>
-              <text x="180" y="20" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Complex Vision Tasks</text>
-              <text x="20" y="45" font-family="Arial" font-size="12">• Classification</text>
-              <text x="120" y="45" font-family="Arial" font-size="12">• Detection</text>
-              <text x="220" y="45" font-family="Arial" font-size="12">• Segmentation</text>
-              <text x="320" y="45" font-family="Arial" font-size="12">• Analysis</text>
+              <text x="180" y="20" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">Deep Learning Model Inference</text>
+              <text x="80" y="45" font-family="Arial" font-size="12">• Classification</text>
+              <text x="200" y="45" font-family="Arial" font-size="12">• Anomaly Detection</text>
+              {/* <text x="220" y="45" font-family="Arial" font-size="12">• Segmentation</text>Complex Vision Tasks
+
+              <text x="320" y="45" font-family="Arial" font-size="12">• Analysis</text> */}
               <text x="180" y="65" font-family="Arial" font-size="12" font-style="italic">Task-specific Processing</text>
             </g>
             
@@ -286,11 +287,11 @@ const ProjectHomepage = () => {
           {/* <!-- Connecting Arrows --> */}
           <g stroke="#424242" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)">
             {/* <!-- Training Flow --> */}
-            <path d="M 250,180 L 250,220"/>
-            <path d="M 250,320 L 250,360"/>
+            <path d="M 250,180 L 250,240"/>
+            <path d="M 250,320 L 250,400"/>
             {/* <!-- Inference Flow --> */}
-            <path d="M 750,180 L 750,220"/>
-            <path d="M 750,320 L 750,360"/>
+            <path d="M 750,180 L 750,240"/>
+            <path d="M 750,320 L 750,400"/>
             {/* <!-- Stage Connection --> */}
             <path d="M 470,200 L 530,200"/>
           </g>

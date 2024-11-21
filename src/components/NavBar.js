@@ -5,7 +5,6 @@ import {
   FileText,
   Box,
   Terminal,
-  Globe,
   Github,
   Menu,
   X
@@ -86,7 +85,7 @@ const NavBar = ({ lang = 'en', onChangeLang }) => {
 
               {/* GitHub */}
               <a
-                href="#"
+                href="https://github.com/Qingbolan/Vision-LLM-Integration"
                 className="flex items-center px-3 py-1.5 text-gray-600 hover:text-gray-900 transition"
               >
                 <Github className="w-4 h-4 mr-2" />
@@ -95,7 +94,7 @@ const NavBar = ({ lang = 'en', onChangeLang }) => {
 
               {/* Paper */}
               <a
-                href="#"
+                href="/docs"
                 className="px-4 py-1.5 bg-black text-white hover:bg-gray-800 transition"
               >
                 {t.buttons.paper}
@@ -137,7 +136,7 @@ const NavBar = ({ lang = 'en', onChangeLang }) => {
 
                   {/* Mobile GitHub */}
                   <a
-                    href="#"
+                    href="https://github.com/Qingbolan/Vision-LLM-Integration"
                     className="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 transition"
                   >
                     <Github className="w-4 h-4 mr-2" />
@@ -146,7 +145,7 @@ const NavBar = ({ lang = 'en', onChangeLang }) => {
 
                   {/* Mobile Paper */}
                   <a
-                    href="#"
+                    href="/docs"
                     className="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 transition"
                   >
                     <FileText className="w-4 h-4 mr-2" />

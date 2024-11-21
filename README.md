@@ -1,70 +1,196 @@
-# Getting Started with Create React App
+# VisionaryLLM Demo Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Interactive web interface for the VisionaryLLM framework, demonstrating domain-specific visual analysis with LLM integration.
 
-## Available Scripts
+🌐 Live Demo: [https://cs5242-demo.silan.tech](https://cs5242-demo.silan.tech)  
+🔗 Backend Repository: [Vision-LLM-Integration](https://github.com/Qingbolan/Vision-LLM-Integration)
 
-In the project directory, you can run:
+## Project Overview
 
-### `npm start`
+This repository contains the frontend implementation for VisionaryLLM, providing an intuitive interface for:
+- Interactive visual analysis of images
+- Real-time LLM-powered analysis and explanations
+- Model performance visualization
+- Cross-domain application demonstrations
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Structure
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+src/
+├── api/                    # API integration
+│   └── index.js           # API endpoint configurations
+├── components/            # Reusable UI components
+│   ├── ImagePipeline.jsx  # Image processing visualization
+│   ├── ImagePipeline.css  # Pipeline styling
+│   └── NavBar.js         # Navigation component
+├── view/                  # Page views
+│   ├── Applications.js    # Use cases showcase
+│   ├── Documentation.js   # Framework documentation
+│   ├── framework.js       # Architecture explanation
+│   ├── homepage.js        # Landing page
+│   ├── model.js          # Model descriptions
+│   └── demo/             # Interactive demonstrations
+│       ├── AnalysisInteraction.js    # Analysis interface
+│       ├── chat.js                   # LLM interaction
+│       └── DatasetModelInterface.js   # Dataset visualization
+└── App.js                # Root component
+```
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. Interactive Analysis Interface
+- Drag-and-drop image upload
+- Real-time visual analysis
+- Interactive result visualization
+- Grad-CAM heatmap display
 
-### `npm run build`
+### 2. LLM Integration
+- Natural language interaction with models
+- Contextual analysis explanations
+- Domain-specific insights
+- Query-based exploration
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 3. Model Visualization
+- Performance metrics display
+- Training process animation
+- Architecture visualization
+- Result interpretation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
+- Node.js (v14.0 or higher)
+- npm or yarn
+- Modern web browser
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# Clone the repository
+git clone https://github.com/YourUsername/visionaryllm-frontend.git
+cd visionaryllm-frontend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Install dependencies
+npm install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Create .env file
+cp .env.example .env
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Configuration
 
-## Learn More
+Create `.env` file with the following variables:
+```plaintext
+REACT_APP_API_URL=http://localhost:5100
+REACT_APP_BACKEND_URL=your_backend_url
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Development
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Start development server
+npm start
 
-### Code Splitting
+# Run tests
+npm test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Build for production
+npm run build
+```
 
-### Analyzing the Bundle Size
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Image Analysis
+```javascript
+// Example: Using the ImagePipeline component
+import { ImagePipeline } from './components/ImagePipeline';
 
-### Making a Progressive Web App
+const MyComponent = () => {
+  const handleAnalysis = async (imageData) => {
+    const results = await analyzeImage(imageData);
+    // Handle results
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  return (
+    <ImagePipeline
+      onAnalysis={handleAnalysis}
+      modelType="crack-detection"
+    />
+  );
+};
+```
 
-### Advanced Configuration
+### LLM Integration
+```javascript
+// Example: Using the AnalysisInteraction component
+import { AnalysisInteraction } from './view/demo/AnalysisInteraction';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+const Demo = () => {
+  return (
+    <AnalysisInteraction
+      onQuery={handleQuery}
+      onResultUpdate={handleUpdate}
+    />
+  );
+};
+```
 
-### Deployment
+## API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The frontend communicates with the backend through RESTful APIs:
 
-### `npm run build` fails to minify
+```javascript
+// api/index.js
+export const analyzeImage = async (image) => {
+  const response = await fetch(`${API_URL}/analyze`, {
+    method: 'POST',
+    body: formData
+  });
+  return response.json();
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Deployment
+
+```bash
+# Build production version
+npm run build
+
+# Deploy to server
+npm run deploy
+```
+
+For detailed deployment instructions, see [Deployment Guide](docs/deployment.md).
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Team
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Qingbolan">
+        <img src="https://github.com/Qingbolan.png" width="100px;" alt=""/>
+        <br /><sub><b>HU SILAN</b></sub>
+      </a>
+      <br />
+      <a href="mailto:e1373455@u.nus.edu">📧</a>
+    </td>
+  </tr>
+</table>
+
+
+## Related Projects
+
+- [VisionaryLLM Backend](https://github.com/Qingbolan/Vision-LLM-Integration)
+- [Project Documentation](https://cs5242-demo.silan.tech/documentation)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
